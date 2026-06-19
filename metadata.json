@@ -1,0 +1,6 @@
+{
+  "name": "Renomeador",
+  "description": "Aplicativo para renomear lotes de imagens e arquivos com reordenação por arrastar e soltar, lista de nomes personalizados e exportação dinâmica.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
