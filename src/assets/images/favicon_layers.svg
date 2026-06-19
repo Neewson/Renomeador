@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Gradiente vibrante idêntico ao estilo visual do aplicativo -->
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />   <!-- indigo-500 -->
+      <stop offset="50%" stop-color="#a855f7" />  <!-- purple-500 -->
+      <stop offset="100%" stop-color="#ec4899" /> <!-- pink-500 -->
+    </linearGradient>
+  </defs>
+  
+  <!-- Contêiner arredondado premium (squircle) -->
+  <rect x="32" y="32" width="448" height="448" rx="112" fill="url(#logo-grad)" />
+  
+  <!-- Camada 3 (Inferior) -->
+  <path d="M 120 310 L 256 380 L 392 310" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6" / >
+  
+  <!-- Camada 2 (Intermediária) -->
+  <path d="M 120 250 L 256 320 L 392 250" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.8" / >
+  
+  <!-- Camada 1 (Superior / Folha principal fechada) -->
+  <path d="M 256 120 L 392 190 L 256 260 L 120 190 Z" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>

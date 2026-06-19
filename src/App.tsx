@@ -1591,7 +1591,7 @@ export default function App() {
                   </p>
 
                   <div className="p-3.5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100/50 dark:border-indigo-900/40 text-zinc-700 dark:text-zinc-300">
-                    📧 <b>E-mail Direto de Contato:</b> <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold select-all">suporte.renamer@gmail.com</span>
+                    📧 <b>E-mail Direto de Contato:</b> <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold select-all">clicfilebr@gmail.com</span>
                   </div>
 
                   {contactSubmitted ? (
