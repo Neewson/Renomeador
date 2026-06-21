@@ -52,7 +52,14 @@ export default function App() {
       }
     }
     return {
-      filterByExtension: 'images',
+      filterByExtension: 'images' as 'images',
+      allowedTypes: {
+        images: true,
+        audio: true,
+        video: true,
+        pdf: true,
+        others: true,
+      },
       keepExtension: true,
       prefix: '',
       suffix: '',
@@ -220,19 +227,25 @@ export default function App() {
       const isPdf = fileType === 'application/pdf' || ext === 'pdf';
       const isText = fileType.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
 
-      if (settings.filterByExtension === 'images' && !isImg) {
+      const allowed = settings.allowedTypes || { images: true, audio: true, video: true, pdf: true, others: true };
+
+      if (isImg && !allowed.images) {
         skippedFiles.push(file.name);
         return;
       }
-      if (settings.filterByExtension === 'audio' && !isAudio) {
+      if (isAudio && !allowed.audio) {
         skippedFiles.push(file.name);
         return;
       }
-      if (settings.filterByExtension === 'video' && !isVideo) {
+      if (isVideo && !allowed.video) {
         skippedFiles.push(file.name);
         return;
       }
-      if (settings.filterByExtension === 'pdf' && !isPdf) {
+      if (isPdf && !allowed.pdf) {
+        skippedFiles.push(file.name);
+        return;
+      }
+      if (!isImg && !isAudio && !isVideo && !isPdf && !allowed.others) {
         skippedFiles.push(file.name);
         return;
       }
@@ -265,12 +278,7 @@ export default function App() {
     });
 
     if (skippedFiles.length > 0) {
-      const typeLabel = 
-        settings.filterByExtension === 'images' ? 'Apenas Imagem' :
-        settings.filterByExtension === 'audio' ? 'Apenas Áudio' :
-        settings.filterByExtension === 'video' ? 'Apenas Vídeo' :
-        settings.filterByExtension === 'pdf' ? 'Apenas PDF' : 'Tipo selecionado';
-      addLog('warning', `${skippedFiles.length} arquivos ignorados devido ao filtro de tipo: '${typeLabel}'`, skippedFiles.join('\n'));
+      addLog('warning', `${skippedFiles.length} arquivos ignorados devido aos filtros de tipo ativos.`, skippedFiles.join('\n'));
     }
 
     if (acceptedFiles.length > 0) {
@@ -622,6 +630,17 @@ export default function App() {
 
   const isDirectoryPickerSupported = typeof window !== 'undefined' && 'showDirectoryPicker' in window;
 
+  const getAcceptAttribute = () => {
+    const allowed = settings.allowedTypes || { images: true, audio: true, video: true, pdf: true, others: true };
+    if (allowed.others) return undefined;
+    const types: string[] = [];
+    if (allowed.images) types.push("image/*");
+    if (allowed.audio) types.push("audio/*");
+    if (allowed.video) types.push("video/*");
+    if (allowed.pdf) types.push("application/pdf");
+    return types.length > 0 ? types.join(",") : "application/octet-stream";
+  };
+
   return (
     <div className={`min-h-screen bg-zinc-50 dark:bg-zinc-950 font-sans transition-colors duration-300 ${settings.darkMode ? 'dark' : ''}`}>
       
@@ -708,102 +727,137 @@ export default function App() {
                 <p className="text-[11px] text-zinc-500 mt-0.5">Arraste para ordenar, clique para focar</p>
               </div>
 
-              {/* Type Switcher grid requested by user */}
-              <div className="grid grid-cols-3 gap-1 bg-zinc-100 dark:bg-zinc-950 rounded-xl p-1 border border-zinc-200 dark:border-zinc-800 text-[10px]">
-                {/* Row 1, Col 1: Todos */}
-                <button
-                  type="button"
-                  id="filter-all-btn"
-                  onClick={() => {
-                    setSettings(prev => ({ ...prev, filterByExtension: 'all' }));
-                    addLog('info', "Filtro alterado para: 'Todos os formatos'.");
-                  }}
-                  className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center gap-1 ${
-                    settings.filterByExtension === 'all'
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
-                  }`}
-                >
-                  <FilesIcon className="w-3 h-3 text-indigo-500 shrink-0" />
-                  <span>Todos</span>
-                </button>
-
-                {/* Row 1, Col 2: Áudio */}
-                <button
-                  type="button"
-                  id="filter-audio-btn"
-                  onClick={() => {
-                    setSettings(prev => ({ ...prev, filterByExtension: 'audio' }));
-                    addLog('info', "Filtro alterado para: 'Apenas Áudio'.");
-                  }}
-                  className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center gap-1 ${
-                    settings.filterByExtension === 'audio'
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
-                  }`}
-                >
-                  <FileAudio className="w-3 h-3 text-indigo-500 shrink-0" />
-                  <span>Áudio</span>
-                </button>
-
-                {/* Row 1, Col 3: Vídeo */}
-                <button
-                  type="button"
-                  id="filter-video-btn"
-                  onClick={() => {
-                    setSettings(prev => ({ ...prev, filterByExtension: 'video' }));
-                    addLog('info', "Filtro alterado para: 'Apenas Vídeo'.");
-                  }}
-                  className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center gap-1 ${
-                    settings.filterByExtension === 'video'
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
-                  }`}
-                >
-                  <FileVideo className="w-3 h-3 text-indigo-500 shrink-0" />
-                  <span>Vídeo</span>
-                </button>
-
-                {/* Row 2, Col 1: Empty or Spacer decoration */}
-                <div className="text-zinc-300 dark:text-zinc-700 select-none flex items-center justify-center text-[9px] font-mono opacity-50 px-2 py-1">
-                  • • •
+              {/* Checkbox Group for Allowed Formats - fully checked by default */}
+              <div className="flex flex-col gap-2 bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200/60 dark:border-zinc-800/60 rounded-xl p-3">
+                <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-1">
+                  <span>Formatos Permitidos:</span>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { images: true, audio: true, video: true, pdf: true, others: true }
+                        }));
+                        addLog('info', 'Todos os formatos foram marcados.');
+                      }}
+                      className="text-indigo-600 dark:text-indigo-400 hover:underline text-[9px]"
+                    >
+                      Marcar Todos
+                    </button>
+                    <span className="text-zinc-300 dark:text-zinc-700">|</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { images: false, audio: false, video: false, pdf: false, others: false }
+                        }));
+                        addLog('info', 'Todos os formatos foram desmarcados.');
+                      }}
+                      className="text-indigo-600 dark:text-indigo-400 hover:underline text-[9px]"
+                    >
+                      Nenhum
+                    </button>
+                  </div>
                 </div>
 
-                {/* Row 2, Col 2: Imagem */}
-                <button
-                  type="button"
-                  id="filter-images-btn"
-                  onClick={() => {
-                    setSettings(prev => ({ ...prev, filterByExtension: 'images' }));
-                    addLog('info', "Filtro alterado para: 'Apenas Imagem'.");
-                  }}
-                  className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center gap-1 ${
-                    settings.filterByExtension === 'images'
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
-                  }`}
-                >
-                  <ImageIcon className="w-3 h-3 text-indigo-500 shrink-0" />
-                  <span>Imagem</span>
-                </button>
+                <div className="grid grid-cols-2 gap-2 text-[11px] leading-relaxed">
+                  {/* Imagens */}
+                  <label className="flex items-center gap-2 px-2 py-1.5 rounded-lg border border-zinc-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-850 select-none transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={settings.allowedTypes?.images ?? true}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { ...prev.allowedTypes, images: val }
+                        }));
+                        addLog('info', `Filtro de Imagens ${val ? 'ativado' : 'desativado'}.`);
+                      }}
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 w-3.5 h-3.5"
+                    />
+                    <ImageIcon className="w-3.5 h-3.5 text-indigo-500 shrink-0" />
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">Imagens</span>
+                  </label>
 
-                {/* Row 2, Col 3: PDF */}
-                <button
-                  type="button"
-                  id="filter-pdf-btn"
-                  onClick={() => {
-                    setSettings(prev => ({ ...prev, filterByExtension: 'pdf' }));
-                    addLog('info', "Filtro alterado para: 'Apenas PDF'.");
-                  }}
-                  className={`py-1 px-2 rounded-lg font-medium transition-all flex items-center justify-center gap-1 ${
-                    settings.filterByExtension === 'pdf'
-                      ? 'bg-white dark:bg-zinc-800 text-zinc-950 dark:text-white shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
-                  }`}
-                >
-                  <FileIcon className="w-3 h-3 text-indigo-500 shrink-0" />
-                  <span>PDF</span>
-                </button>
+                  {/* Áudio */}
+                  <label className="flex items-center gap-2 px-2 py-1.5 rounded-lg border border-zinc-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-850 select-none transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={settings.allowedTypes?.audio ?? true}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { ...prev.allowedTypes, audio: val }
+                        }));
+                        addLog('info', `Filtro de Áudio ${val ? 'ativado' : 'desativado'}.`);
+                      }}
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 w-3.5 h-3.5"
+                    />
+                    <FileAudio className="w-3.5 h-3.5 text-indigo-550 shrink-0" />
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">Áudios</span>
+                  </label>
+
+                  {/* Vídeo */}
+                  <label className="flex items-center gap-2 px-2 py-1.5 rounded-lg border border-zinc-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-850 select-none transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={settings.allowedTypes?.video ?? true}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { ...prev.allowedTypes, video: val }
+                        }));
+                        addLog('info', `Filtro de Vídeo ${val ? 'ativado' : 'desativado'}.`);
+                      }}
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 w-3.5 h-3.5"
+                    />
+                    <FileVideo className="w-3.5 h-3.5 text-indigo-550 shrink-0" />
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">Vídeos</span>
+                  </label>
+
+                  {/* PDF */}
+                  <label className="flex items-center gap-2 px-2 py-1.5 rounded-lg border border-zinc-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-850 select-none transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={settings.allowedTypes?.pdf ?? true}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { ...prev.allowedTypes, pdf: val }
+                        }));
+                        addLog('info', `Filtro de PDFs ${val ? 'ativado' : 'desativado'}.`);
+                      }}
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 w-3.5 h-3.5"
+                    />
+                    <FileIcon className="w-3.5 h-3.5 text-indigo-550 shrink-0" />
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">PDFs</span>
+                  </label>
+
+                  {/* Outros */}
+                  <label className="col-span-2 flex items-center gap-2 px-2 py-1.5 rounded-lg border border-zinc-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-850 select-none transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={settings.allowedTypes?.others ?? true}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setSettings(prev => ({
+                          ...prev,
+                          allowedTypes: { ...prev.allowedTypes, others: val }
+                        }));
+                        addLog('info', `Filtro de outros formatos ${val ? 'ativado' : 'desativado'}.`);
+                      }}
+                      className="rounded border-zinc-300 text-indigo-600 focus:ring-indigo-500/20 w-3.5 h-3.5"
+                    />
+                    <FilesIcon className="w-3.5 h-3.5 text-indigo-550 shrink-0" />
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">Outros (TXT, Zip, Excel, Word, etc.)</span>
+                  </label>
+                </div>
               </div>
             </div>
 
@@ -811,15 +865,10 @@ export default function App() {
             <input
               type="file"
               ref={fileInputRef}
-              key={settings.filterByExtension}
+              key={JSON.stringify(settings.allowedTypes)}
               id="file-element-input"
               multiple
-              accept={
-                settings.filterByExtension === 'images' ? "image/*" :
-                settings.filterByExtension === 'audio' ? "audio/*" :
-                settings.filterByExtension === 'video' ? "video/*" :
-                settings.filterByExtension === 'pdf' ? "application/pdf" : undefined
-              }
+              accept={getAcceptAttribute()}
               onChange={handleFileChange}
               className="hidden"
             />
@@ -845,13 +894,8 @@ export default function App() {
               <h3 className="text-zinc-800 dark:text-white font-semibold text-xs">
                 Arraste os arquivos aqui
               </h3>
-              <p className="text-[10px] text-zinc-400 mt-1 max-w-[200px] leading-relaxed mx-auto">
-                Ou clique para procurar.
-                {settings.filterByExtension === 'images' && ' Aceita apenas Imagens.'}
-                {settings.filterByExtension === 'audio' && ' Aceita apenas Áudios.'}
-                {settings.filterByExtension === 'video' && ' Aceita apenas Vídeos.'}
-                {settings.filterByExtension === 'pdf' && ' Aceita apenas PDFs.'}
-                {settings.filterByExtension === 'all' && ' Aceita qualquer formato de arquivo.'}
+              <p className="text-[10px] text-zinc-400 mt-1 max-w-[210px] leading-relaxed mx-auto">
+                Ou clique para procurar os formatos selecionados acima.
               </p>
             </label>
 

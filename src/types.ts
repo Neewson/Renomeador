@@ -30,6 +30,13 @@ export interface RenameProgress {
 
 export interface AppSettings {
   filterByExtension: 'all' | 'images' | 'audio' | 'video' | 'pdf';
+  allowedTypes: {
+    images: boolean;
+    audio: boolean;
+    video: boolean;
+    pdf: boolean;
+    others: boolean;
+  };
   keepExtension: boolean;
   prefix: string;
   suffix: string;
