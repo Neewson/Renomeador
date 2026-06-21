@@ -143,8 +143,8 @@ export default function App() {
       setTextPreviewContent('');
       return;
     }
-    const ext = activePreviewItem.extension.toLowerCase();
-    const isText = activePreviewItem.file && (activePreviewItem.file.type.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext));
+    const ext = (activePreviewItem.extension || '').toLowerCase();
+    const isText = activePreviewItem.file && ((activePreviewItem.file.type || '').startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext));
     
     if (isText && activePreviewItem.file) {
       setIsTextLoading(true);
@@ -189,12 +189,15 @@ export default function App() {
     const skippedFiles: string[] = [];
 
     Array.from(uploadedList).forEach((file) => {
-      const ext = file.name.split('.').pop()?.toLowerCase() || '';
-      const isImg = file.type.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
-      const isAudio = file.type.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
-      const isVideo = file.type.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
-      const isPdf = file.type === 'application/pdf' || ext === 'pdf';
-      const isText = file.type.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
+      if (!file) return;
+      const fileType = file.type || '';
+      const ext = (file.name || '').split('.').pop()?.toLowerCase() || '';
+      
+      const isImg = fileType.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
+      const isAudio = fileType.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
+      const isVideo = fileType.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
+      const isPdf = fileType === 'application/pdf' || ext === 'pdf';
+      const isText = fileType.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
 
       if (settings.filterByExtension === 'images' && !isImg) {
         skippedFiles.push(file.name);
@@ -784,10 +787,10 @@ export default function App() {
                 id="file-element-input"
                 multiple
                 accept={
-                  settings.filterByExtension === 'images' ? "image/*" :
-                  settings.filterByExtension === 'audio' ? "audio/*" :
-                  settings.filterByExtension === 'video' ? "video/*" :
-                  settings.filterByExtension === 'pdf' ? "application/pdf" : undefined
+                  settings.filterByExtension === 'images' ? ".png,.jpg,.jpeg,.webp,.gif,.svg,image/*" :
+                  settings.filterByExtension === 'audio' ? ".mp3,.wav,.ogg,.m4a,.aac,.flac,.wma" :
+                  settings.filterByExtension === 'video' ? ".mp4,.webm,.ogg,.mov,.avi,.mkv,.3gp" :
+                  settings.filterByExtension === 'pdf' ? ".pdf,application/pdf" : undefined
                 }
                 onChange={handleFileChange}
                 className="hidden"
@@ -891,12 +894,13 @@ export default function App() {
                 {/* Visual content container */}
                 <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/50 dark:bg-zinc-950/40 p-4 min-h-[220px]">
                   {(() => {
-                    const ext = activePreviewItem.extension.toLowerCase();
-                    const isImg = activePreviewItem.type.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
-                    const isAudio = activePreviewItem.type.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
-                    const isVideo = activePreviewItem.type.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
-                    const isPdf = activePreviewItem.type === 'application/pdf' || ext === 'pdf';
-                    const isTxt = activePreviewItem.type.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
+                    const fileType = activePreviewItem.type || '';
+                    const ext = (activePreviewItem.extension || '').toLowerCase();
+                    const isImg = fileType.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
+                    const isAudio = fileType.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
+                    const isVideo = fileType.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
+                    const isPdf = fileType === 'application/pdf' || ext === 'pdf';
+                    const isTxt = fileType.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
 
                     if (isImg && activePreviewItem.previewUrl) {
                       return (
