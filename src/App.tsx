@@ -803,13 +803,14 @@ export default function App() {
               <input
                 type="file"
                 ref={fileInputRef}
+                key={settings.filterByExtension}
                 id="file-element-input"
                 multiple
                 accept={
-                  settings.filterByExtension === 'images' ? ".png,.jpg,.jpeg,.webp,.gif,.svg,image/*" :
-                  settings.filterByExtension === 'audio' ? ".mp3,.wav,.ogg,.m4a,.aac,.flac,.wma" :
-                  settings.filterByExtension === 'video' ? ".mp4,.webm,.ogg,.mov,.avi,.mkv,.3gp" :
-                  settings.filterByExtension === 'pdf' ? ".pdf,application/pdf" : undefined
+                  settings.filterByExtension === 'images' ? "image/*" :
+                  settings.filterByExtension === 'audio' ? "audio/*" :
+                  settings.filterByExtension === 'video' ? "video/*" :
+                  settings.filterByExtension === 'pdf' ? "application/pdf" : undefined
                 }
                 onChange={handleFileChange}
                 className="hidden"
