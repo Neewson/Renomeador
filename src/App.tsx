@@ -77,6 +77,11 @@ export default function App() {
   const [textPreviewContent, setTextPreviewContent] = useState<string>('');
   const [isTextLoading, setIsTextLoading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imgInputRef = useRef<HTMLInputElement>(null);
+  const audioInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const pdfInputRef = useRef<HTMLInputElement>(null);
+  const allInputRef = useRef<HTMLInputElement>(null);
   const gutterRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -95,17 +100,33 @@ export default function App() {
     }
   }, [settings.darkMode]);
 
-  // Utility to append logs
+  // Utility to append logs with a bulletproof safe timestamp generator (prevents locale-based/Intl crashes on mobile browser engines)
+  const getSafeTimestamp = (): string => {
+    try {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const secs = String(now.getSeconds()).padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    } catch {
+      return '00:00:00';
+    }
+  };
+
   const addLog = (type: LogEntry['type'], message: string, details?: string) => {
-    const timestamp = new Date().toLocaleTimeString('pt-BR', { hour12: false });
-    const newEntry: LogEntry = {
-      id: Math.random().toString(36).substring(2, 9),
-      timestamp,
-      type,
-      message,
-      details,
-    };
-    setLogs((prev) => [newEntry, ...prev]);
+    try {
+      const timestamp = getSafeTimestamp();
+      const newEntry: LogEntry = {
+        id: Math.random().toString(36).substring(2, 9),
+        timestamp,
+        type,
+        message,
+        details,
+      };
+      setLogs((prev) => [newEntry, ...prev]);
+    } catch (err) {
+      console.warn('Logging error caught safely:', err);
+    }
   };
 
   // Preset startup welcome log
@@ -792,7 +813,24 @@ export default function App() {
               onDragOver={handleDragOverDropzone}
               onDragLeave={handleDragLeaveDropzone}
               onDrop={handleDropOnDropzone}
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => {
+                try {
+                  if (settings.filterByExtension === 'images') {
+                    imgInputRef.current?.click();
+                  } else if (settings.filterByExtension === 'audio') {
+                    audioInputRef.current?.click();
+                  } else if (settings.filterByExtension === 'video') {
+                    videoInputRef.current?.click();
+                  } else if (settings.filterByExtension === 'pdf') {
+                    pdfInputRef.current?.click();
+                  } else {
+                    allInputRef.current?.click();
+                  }
+                } catch (e) {
+                  console.warn('Clicking specific ref failed, falling back to general ref', e);
+                  fileInputRef.current?.click();
+                }
+              }}
               className={`relative border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 min-h-[120px] flex flex-col items-center justify-center
                 ${isDragOverDropzone 
                   ? 'border-indigo-500 bg-indigo-50/40 dark:bg-indigo-950/10 scale-99' 
@@ -800,6 +838,51 @@ export default function App() {
                 }
               `}
             >
+              {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices */}
+              <input
+                type="file"
+                ref={imgInputRef}
+                id="file-input-images"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
+                ref={audioInputRef}
+                id="file-input-audio"
+                multiple
+                accept="audio/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
+                ref={videoInputRef}
+                id="file-input-video"
+                multiple
+                accept="video/*"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
+                ref={pdfInputRef}
+                id="file-input-pdf"
+                multiple
+                accept="application/pdf"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
+                ref={allInputRef}
+                id="file-input-all"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
               <input
                 type="file"
                 ref={fileInputRef}
