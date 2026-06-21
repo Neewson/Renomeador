@@ -908,11 +908,11 @@ export default function App() {
               </h3>
               <p className="text-[10px] text-zinc-400 mt-1 max-w-[200px] leading-relaxed mx-auto">
                 Ou clique para procurar.
+                {settings.filterByExtension === 'all' && ' Aceita qualquer formato de arquivo.'}
                 {settings.filterByExtension === 'images' && ' Aceita apenas Imagens.'}
                 {settings.filterByExtension === 'audio' && ' Aceita apenas Áudios.'}
                 {settings.filterByExtension === 'video' && ' Aceita apenas Vídeos.'}
                 {settings.filterByExtension === 'pdf' && ' Aceita apenas PDFs.'}
-                {settings.filterByExtension === 'all' && ' Aceita qualquer formato de arquivo.'}
               </p>
             </div>
 
