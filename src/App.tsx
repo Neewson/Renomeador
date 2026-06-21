@@ -950,23 +950,31 @@ export default function App() {
                       );
                     } else if (isPdf && activePreviewItem.previewUrl) {
                       return (
-                        <div className="flex flex-col items-center justify-center w-full gap-3 my-auto">
-                          <div className="relative group w-full h-[130px] flex items-center justify-center rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow bg-zinc-100 dark:bg-zinc-950">
-                            <iframe
-                              src={`${activePreviewItem.previewUrl}#toolbar=0`}
-                              className="w-full h-full border-none"
-                              title="PDF Viewer"
-                            />
+                        <div className="flex flex-col items-center justify-center w-full gap-3 my-auto p-4 bg-zinc-50 dark:bg-zinc-950/40 rounded-2xl border border-zinc-200/60 dark:border-zinc-800 shadow-inner">
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+                              <FileText className="w-6 h-6" />
+                            </div>
+                            <div className="text-left">
+                              <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full">
+                                Documento PDF
+                              </span>
+                              <p className="text-[10px] text-zinc-500 mt-1 font-mono">Modo de Segurança</p>
+                            </div>
                           </div>
 
-                          <div className="flex justify-center w-full">
+                          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 text-center max-w-[240px] leading-normal">
+                            Para garantir total compatibilidade e privacidade de dados no celular, visualize o PDF diretamente no leitor nativo.
+                          </p>
+
+                          <div className="flex justify-center w-full mt-1">
                             <a
                               href={activePreviewItem.previewUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="flex items-center gap-1.5 text-[10px] font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100 dark:hover:bg-indigo-950 px-3 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-900/30 transition-all shadow-sm"
+                              className="flex items-center gap-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-xl transition-all shadow-md active:scale-97 cursor-pointer"
                             >
-                              <span>Visualizar PDF em Tela Cheia ↗</span>
+                              <span>Visualizar PDF Completo ↗</span>
                             </a>
                           </div>
                         </div>
