@@ -815,7 +815,7 @@ export default function App() {
               onDrop={handleDropOnDropzone}
               onClick={() => {
                 try {
-                  if (settings.filterByExtension === 'images') {
+                  if (settings.filterByExtension === 'all') {
                     imgInputRef.current?.click();
                   } else if (settings.filterByExtension === 'audio') {
                     audioInputRef.current?.click();
