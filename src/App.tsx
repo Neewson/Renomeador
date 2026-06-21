@@ -219,7 +219,11 @@ export default function App() {
       // Create object previewUrl if it's displayable/playable/interactive
       let previewUrl = null;
       if (isImg || isAudio || isVideo || isPdf || isText) {
-        previewUrl = URL.createObjectURL(file);
+        try {
+          previewUrl = URL.createObjectURL(file);
+        } catch (err: any) {
+          console.warn('URL.createObjectURL block:', err);
+        }
       }
 
       // Detect duplicates
@@ -291,8 +295,12 @@ export default function App() {
   const removeFile = (id: string) => {
     const targetFile = files.find(f => f.id === id);
     if (targetFile) {
-      if (targetFile.previewUrl) {
-        URL.revokeObjectURL(targetFile.previewUrl);
+      if (targetFile.previewUrl && targetFile.previewUrl.startsWith('blob:')) {
+        try {
+          URL.revokeObjectURL(targetFile.previewUrl);
+        } catch (e) {
+          console.warn('URL.revokeObjectURL error:', e);
+        }
       }
       setFiles((prev) => prev.filter((f) => f.id !== id));
       addLog('info', `Arquivo removido da fila: ${targetFile.name}`);
@@ -302,7 +310,13 @@ export default function App() {
   // Wipe index lists
   const clearFileList = () => {
     files.forEach(f => {
-      if (f.previewUrl) URL.revokeObjectURL(f.previewUrl);
+      if (f.previewUrl && f.previewUrl.startsWith('blob:')) {
+        try {
+          URL.revokeObjectURL(f.previewUrl);
+        } catch (e) {
+          console.warn('URL.revokeObjectURL error:', e);
+        }
+      }
     });
     setFiles([]);
     addLog('info', 'Lista de arquivos redefinida.');
@@ -385,17 +399,22 @@ export default function App() {
   };
 
   // Calculate new name for a file based on position and settings
-  const getNewFileName = (fileItem: RenameableFile, index: number): string => {
+  const getNewFileName = (fileItem: RenameableFile | null | undefined, index: number): string => {
+    if (!fileItem) return '';
     const rawLine = targetLines[index];
     const targetName = rawLine ? rawLine.trim() : '';
 
+    const name = fileItem.name || '';
+    const extension = fileItem.extension || '';
+
     if (!targetName) {
       // Fallback: Use original name (no ext) if no target name was provided on that row
-      const nameWithoutExt = fileItem.name.substring(0, fileItem.name.lastIndexOf('.')) || fileItem.name;
-      return `${settings.prefix}${nameWithoutExt}${settings.suffix}${settings.keepExtension ? '.' + fileItem.extension : ''}`;
+      const lastDotIndex = name.lastIndexOf('.');
+      const nameWithoutExt = lastDotIndex !== -1 ? name.substring(0, lastDotIndex) : name;
+      return `${settings.prefix}${nameWithoutExt}${settings.suffix}${settings.keepExtension && extension ? '.' + extension : ''}`;
     }
 
-    return `${settings.prefix}${targetName}${settings.suffix}${settings.keepExtension ? '.' + fileItem.extension : ''}`;
+    return `${settings.prefix}${targetName}${settings.suffix}${settings.keepExtension && extension ? '.' + extension : ''}`;
   };
 
   /**
@@ -991,7 +1010,7 @@ export default function App() {
                               <FileText className="w-3.5 h-3.5" />
                               <span>Conteúdo do Arquivo de Texto</span>
                             </div>
-                            <span className="text-[9px] text-zinc-400 font-mono">({activePreviewItem.extension.toUpperCase()})</span>
+                            <span className="text-[9px] text-zinc-400 font-mono">({(activePreviewItem.extension || '').toUpperCase()})</span>
                           </div>
                           
                           <div className="w-full max-h-[130px] overflow-y-auto text-left font-mono text-[10px] p-2.5 bg-zinc-100 dark:bg-black/65 border border-zinc-200 dark:border-zinc-850 rounded-xl whitespace-pre-wrap text-zinc-700 dark:text-zinc-350 leading-relaxed shadow-inner">
@@ -1014,7 +1033,7 @@ export default function App() {
                           <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/50 dark:border-zinc-800/50 text-indigo-500">
                             <FileIcon className="w-6 h-6" />
                           </div>
-                          <span className="text-xs font-mono">{activePreviewItem.extension.toUpperCase() || 'Arquivo'}</span>
+                          <span className="text-xs font-mono">{(activePreviewItem.extension || 'Arquivo').toUpperCase()}</span>
                           <span className="text-[10px] text-zinc-400 italic">Sem visualização direta compatível</span>
                         </div>
                       );
@@ -1033,14 +1052,14 @@ export default function App() {
                 </div>
 
                 {/* Comparison block */}
-                <div className="p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-205 dark:border-zinc-850 flex flex-col gap-2.5">
+                <div className="p-3.5 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 flex flex-col gap-2.5">
                   <div className="min-w-0">
                     <span className="text-[9px] font-mono tracking-widest text-zinc-400 dark:text-zinc-500 uppercase">Nome Anterior</span>
                     <div className="text-xs text-zinc-500 dark:text-zinc-400 font-mono overflow-x-auto whitespace-nowrap scrollbar-thin pb-1 line-through opacity-70" title={activePreviewItem.name}>
                       {activePreviewItem.name}
                     </div>
                   </div>
-                  <div className="border-t border-zinc-105 dark:border-zinc-800/10 my-0.5" />
+                  <div className="border-t border-zinc-200/50 dark:border-zinc-800/10 my-0.5" />
                   <div className="min-w-0">
                     <span className="text-[9px] font-mono tracking-widest text-indigo-500 dark:text-indigo-400 uppercase">Novo Nome Resultante</span>
                     <div className="text-xs text-emerald-600 dark:text-emerald-400 font-bold font-mono flex items-center gap-1.5 overflow-x-auto whitespace-nowrap scrollbar-thin pb-1" title={getNewFileName(activePreviewItem, activePreviewIndex)}>

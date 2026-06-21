@@ -66,12 +66,13 @@ export const FileItemRow: React.FC<FileItemRowProps> = ({
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   };
 
-  const ext = fileItem.extension.toLowerCase();
-  const isImage = fileItem.type.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
-  const isAudio = fileItem.type.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
-  const isVideo = fileItem.type.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
-  const isPdf = fileItem.type === 'application/pdf' || ext === 'pdf';
-  const isText = fileItem.type.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
+  const ext = (fileItem.extension || '').toLowerCase();
+  const fileType = fileItem.type || '';
+  const isImage = fileType.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'].includes(ext);
+  const isAudio = fileType.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'flac', 'wma'].includes(ext);
+  const isVideo = fileType.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv', '3gp'].includes(ext);
+  const isPdf = fileType === 'application/pdf' || ext === 'pdf';
+  const isText = fileType.startsWith('text/') || ['txt', 'csv', 'json', 'md', 'html', 'css', 'js', 'ts', 'xml', 'log'].includes(ext);
 
   // Dynamic file format icons
   const getFileIcon = () => {
