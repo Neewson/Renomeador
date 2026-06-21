@@ -52,7 +52,7 @@ export default function App() {
       }
     }
     return {
-      filterByExtension: 'all',
+      filterByExtension: 'images',
       keepExtension: true,
       prefix: '',
       suffix: '',
@@ -807,51 +807,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices and infinite click bubbling recursion in production */}
-            <input
-              type="file"
-              ref={imgInputRef}
-              id="file-input-images"
-              multiple
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <input
-              type="file"
-              ref={audioInputRef}
-              id="file-input-audio"
-              multiple
-              accept="audio/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <input
-              type="file"
-              ref={videoInputRef}
-              id="file-input-video"
-              multiple
-              accept="video/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <input
-              type="file"
-              ref={pdfInputRef}
-              id="file-input-pdf"
-              multiple
-              accept="application/pdf"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            <input
-              type="file"
-              ref={allInputRef}
-              id="file-input-all"
-              multiple
-              onChange={handleFileChange}
-              className="hidden"
-            />
+            {/* Native single file input with dynamic 'accept' attribute based on settings */}
             <input
               type="file"
               ref={fileInputRef}
@@ -868,31 +824,14 @@ export default function App() {
               className="hidden"
             />
 
-            {/* Dropzone Container */}
-            <div
+            {/* Native, ultra-safe HTML Label Dropzone Container - avoids complex click handlers/bubble loops */}
+            <label
               id="upload-dropzone"
+              htmlFor="file-element-input"
               onDragOver={handleDragOverDropzone}
               onDragLeave={handleDragLeaveDropzone}
               onDrop={handleDropOnDropzone}
-              onClick={() => {
-                try {
-                  if (settings.filterByExtension === 'images') {
-                    imgInputRef.current?.click();
-                  } else if (settings.filterByExtension === 'audio') {
-                    audioInputRef.current?.click();
-                  } else if (settings.filterByExtension === 'video') {
-                    videoInputRef.current?.click();
-                  } else if (settings.filterByExtension === 'pdf') {
-                    pdfInputRef.current?.click();
-                  } else {
-                    allInputRef.current?.click();
-                  }
-                } catch (e) {
-                  console.warn('Clicking specific ref failed, falling back to general ref', e);
-                  fileInputRef.current?.click();
-                }
-              }}
-              className={`relative border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 min-h-[120px] flex flex-col items-center justify-center
+              className={`relative border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all duration-300 min-h-[120px] flex flex-col items-center justify-center block
                 ${isDragOverDropzone 
                   ? 'border-indigo-500 bg-indigo-50/40 dark:bg-indigo-950/10 scale-99' 
                   : 'border-zinc-200 dark:border-zinc-850 bg-zinc-50/50 dark:bg-zinc-950/10 hover:border-zinc-300 dark:hover:border-zinc-700'
@@ -914,7 +853,7 @@ export default function App() {
                 {settings.filterByExtension === 'pdf' && ' Aceita apenas PDFs.'}
                 {settings.filterByExtension === 'all' && ' Aceita qualquer formato de arquivo.'}
               </p>
-            </div>
+            </label>
 
             {/* Loaded Files Section wrapper */}
             <div className="flex-grow flex flex-col">
