@@ -841,6 +841,14 @@ export default function App() {
               {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices */}
               <input
                 type="file"
+                ref={allInputRef}
+                id="file-input-all"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
                 ref={imgInputRef}
                 id="file-input-images"
                 multiple
@@ -872,14 +880,6 @@ export default function App() {
                 id="file-input-pdf"
                 multiple
                 accept="application/pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={allInputRef}
-                id="file-input-all"
-                multiple
                 onChange={handleFileChange}
                 className="hidden"
               />
