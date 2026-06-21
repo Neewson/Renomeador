@@ -647,9 +647,9 @@ export default function App() {
           <span className="text-xs text-indigo-700 dark:text-indigo-300">Quer testar com dados simulados agora?</span>
           <button
             onClick={populateWithMockData}
-            className="px-2.5 py-1 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors"
+            className="px-2 py-0.5 text-[10px] font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors"
           >
-            Amostra Grátis
+            Testar
           </button>
         </div>
 
@@ -1595,7 +1595,7 @@ export default function App() {
               <>
                 <h3 className="text-base font-bold text-zinc-950 dark:text-white flex items-center gap-2 mb-4 shrink-0">
                   <Mail className="w-5 h-5 text-indigo-500 shrink-0" />
-                  <span>Contato & Suporte</span>
+                  <span>Contato e Suporte</span>
                 </h3>
                 <div className="text-xs text-zinc-650 dark:text-zinc-300 space-y-4 overflow-y-auto pr-2 scrollbar-thin flex-1 pb-2">
                   <p>
@@ -1699,11 +1699,11 @@ export default function App() {
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 py-8 mt-12 border-t border-zinc-200 dark:border-zinc-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-center">
         <div className="flex flex-col items-center sm:items-start gap-1">
           <p className="text-xs text-zinc-400 dark:text-zinc-500">Processamento executado 100% no navegador.</p>
-          <div className="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-1.5 mt-1 text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
+          <div className="flex flex-wrap justify-center sm:justify-start gap-x-3 gap-y-2 mt-1 text-[11px] font-medium text-indigo-600 dark:text-indigo-400">
             <button 
               type="button" 
               onClick={() => setActiveFooterPage('privacy')}
-              className="hover:underline transition-all cursor-pointer"
+              className="hover:underline transition-all cursor-pointer whitespace-nowrap"
             >
               Política de Privacidade
             </button>
@@ -1711,7 +1711,7 @@ export default function App() {
             <button 
               type="button" 
               onClick={() => setActiveFooterPage('terms')}
-              className="hover:underline transition-all cursor-pointer"
+              className="hover:underline transition-all cursor-pointer whitespace-nowrap"
             >
               Termos de Uso
             </button>
@@ -1719,7 +1719,7 @@ export default function App() {
             <button 
               type="button" 
               onClick={() => setActiveFooterPage('about')}
-              className="hover:underline transition-all cursor-pointer"
+              className="hover:underline transition-all cursor-pointer whitespace-nowrap"
             >
               Sobre
             </button>
@@ -1727,9 +1727,9 @@ export default function App() {
             <button 
               type="button" 
               onClick={() => setActiveFooterPage('contact')}
-              className="hover:underline transition-all cursor-pointer"
+              className="hover:underline transition-all cursor-pointer whitespace-nowrap"
             >
-              Contato & Suporte
+              Contato e Suporte
             </button>
           </div>
         </div>
