@@ -807,6 +807,67 @@ export default function App() {
               </div>
             </div>
 
+            {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices and infinite click bubbling recursion in production */}
+            <input
+              type="file"
+              ref={imgInputRef}
+              id="file-input-images"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <input
+              type="file"
+              ref={audioInputRef}
+              id="file-input-audio"
+              multiple
+              accept="audio/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <input
+              type="file"
+              ref={videoInputRef}
+              id="file-input-video"
+              multiple
+              accept="video/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <input
+              type="file"
+              ref={pdfInputRef}
+              id="file-input-pdf"
+              multiple
+              accept="application/pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <input
+              type="file"
+              ref={allInputRef}
+              id="file-input-all"
+              multiple
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              key={settings.filterByExtension}
+              id="file-element-input"
+              multiple
+              accept={
+                settings.filterByExtension === 'images' ? "image/*" :
+                settings.filterByExtension === 'audio' ? "audio/*" :
+                settings.filterByExtension === 'video' ? "video/*" :
+                settings.filterByExtension === 'pdf' ? "application/pdf" : undefined
+              }
+              onChange={handleFileChange}
+              className="hidden"
+            />
+
             {/* Dropzone Container */}
             <div
               id="upload-dropzone"
@@ -838,67 +899,6 @@ export default function App() {
                 }
               `}
             >
-              {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices */}
-              <input
-                type="file"
-                ref={imgInputRef}
-                id="file-input-images"
-                multiple
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={audioInputRef}
-                id="file-input-audio"
-                multiple
-                accept="audio/*"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={videoInputRef}
-                id="file-input-video"
-                multiple
-                accept="video/*"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={pdfInputRef}
-                id="file-input-pdf"
-                multiple
-                accept="application/pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={allInputRef}
-                id="file-input-all"
-                multiple
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <input
-                type="file"
-                ref={fileInputRef}
-                key={settings.filterByExtension}
-                id="file-element-input"
-                multiple
-                accept={
-                  settings.filterByExtension === 'images' ? "image/*" :
-                  settings.filterByExtension === 'audio' ? "audio/*" :
-                  settings.filterByExtension === 'video' ? "video/*" :
-                  settings.filterByExtension === 'pdf' ? "application/pdf" : undefined
-                }
-                onChange={handleFileChange}
-                className="hidden"
-              />
-
               <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 mb-2 shadow-sm">
                 <UploadCloud className="w-5 h-5" />
               </div>
