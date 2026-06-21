@@ -52,7 +52,7 @@ export default function App() {
       }
     }
     return {
-      filterByExtension: 'images',
+      filterByExtension: 'all',
       keepExtension: true,
       prefix: '',
       suffix: '',
@@ -815,7 +815,7 @@ export default function App() {
               onDrop={handleDropOnDropzone}
               onClick={() => {
                 try {
-                  if (settings.filterByExtension === 'all') {
+                  if (settings.filterByExtension === 'images') {
                     imgInputRef.current?.click();
                   } else if (settings.filterByExtension === 'audio') {
                     audioInputRef.current?.click();
@@ -839,14 +839,6 @@ export default function App() {
               `}
             >
               {/* Separate static input elements per format to avoid dynamic 'accept' alteration issues on mobile devices */}
-              <input
-                type="file"
-                ref={allInputRef}
-                id="file-input-all"
-                multiple
-                onChange={handleFileChange}
-                className="hidden"
-              />
               <input
                 type="file"
                 ref={imgInputRef}
@@ -880,6 +872,14 @@ export default function App() {
                 id="file-input-pdf"
                 multiple
                 accept="application/pdf"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+              <input
+                type="file"
+                ref={allInputRef}
+                id="file-input-all"
+                multiple
                 onChange={handleFileChange}
                 className="hidden"
               />
