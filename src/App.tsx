@@ -647,7 +647,7 @@ export default function App() {
       {/* Upper Navigation Bar */}
       <header className="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-zinc-900 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-4 sm:px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white shadow-md shadow-indigo-500/20">
+          <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-blue-500 to-cyan-300 text-white shadow-md shadow-blue-500/20">
             <Layers className="w-5.5 h-5.5" />
           </div>
           <div>
@@ -701,8 +701,18 @@ export default function App() {
       {/* Main content body */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6" id="app-main-layout">
         
+        {/* Espaço de Anúncio Superior (Leaderboard Horizontal) */}
+        <div className="mb-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/20 dark:bg-zinc-950/20 flex flex-col items-center justify-center py-4 px-6 text-center transition-all">
+          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500 mb-1">
+            Espaço para Anúncios (Leaderboard Superior - 728x90)
+          </span>
+          <p className="text-[10px] text-zinc-400 dark:text-zinc-650 max-w-sm">
+            Este espaço acomoda banners responsivos ou anúncios integrados de forma elegante.
+          </p>
+        </div>
+
         {/* Mock testing fallback banner on mobile */}
-        <div className="md:hidden mb-4 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 flex items-center justify-between">
+        <div className="md:hidden mb-6 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 flex items-center justify-between">
           <span className="text-xs text-indigo-700 dark:text-indigo-300">Quer testar com dados simulados agora?</span>
           <button
             onClick={populateWithMockData}
@@ -712,8 +722,8 @@ export default function App() {
           </button>
         </div>
 
-        {/* Professional Bento Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        {/* Professional Bento Grid Layout with Expanded Gaps for Breathing Room & Ads */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
 
           {/* Column 1: Files List and DND Dropzone (Left Box) */}
           <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
@@ -1346,6 +1356,16 @@ export default function App() {
             </p>
           </div>
         )}
+
+        {/* Espaço de Anúncio Intermediário / Inferior */}
+        <div className="mt-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/20 dark:bg-zinc-950/20 flex flex-col items-center justify-center py-4 px-6 text-center transition-all">
+          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500 mb-1">
+            Espaço para Anúncios (Leaderboard Inferior - 728x90)
+          </span>
+          <p className="text-[10px] text-zinc-400 dark:text-zinc-650 max-w-sm">
+            Posicionamento ideal para monetização por visualizações ou cliques.
+          </p>
+        </div>
 
         {/* Action Bottom Operations Board */}
         <section className="mt-8 p-6 rounded-3xl bg-gradient-to-r from-zinc-900 via-neutral-900 to-zinc-900 text-white shadow-xl dark:border dark:border-zinc-800" id="export-dashboard">

@@ -2,9 +2,9 @@
   <defs>
     <!-- Gradiente vibrante idêntico ao estilo visual do aplicativo -->
     <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#6366f1" />   <!-- indigo-500 -->
-      <stop offset="50%" stop-color="#a855f7" />  <!-- purple-500 -->
-      <stop offset="100%" stop-color="#ec4899" /> <!-- pink-500 -->
+      <stop offset="0%" stop-color="#1e40af" />   <!-- Azul Escuro / Royal Blue -->
+      <stop offset="50%" stop-color="#3b82f6" />  <!-- Azul Vibrante -->
+      <stop offset="100%" stop-color="#a5f3fc" /> <!-- Azul Claro / Ciano Claro e Limpo -->
     </linearGradient>
   </defs>
   
