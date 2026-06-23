@@ -701,14 +701,11 @@ export default function App() {
       {/* Main content body */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6" id="app-main-layout">
         
-        {/* Espaço de Anúncio Superior (Leaderboard Horizontal) */}
-        <div className="mb-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/20 dark:bg-zinc-950/20 flex flex-col items-center justify-center py-4 px-6 text-center transition-all">
-          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500 mb-1">
-            Espaço para Anúncios (Leaderboard Superior - 728x90)
+        {/* Espaço de Anúncio Superior */}
+        <div className="mb-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex flex-col items-center justify-center py-6 px-6 text-center transition-all min-h-[90px]">
+          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+            Anúncio
           </span>
-          <p className="text-[10px] text-zinc-400 dark:text-zinc-650 max-w-sm">
-            Este espaço acomoda banners responsivos ou anúncios integrados de forma elegante.
-          </p>
         </div>
 
         {/* Mock testing fallback banner on mobile */}
@@ -1357,14 +1354,11 @@ export default function App() {
           </div>
         )}
 
-        {/* Espaço de Anúncio Intermediário / Inferior */}
-        <div className="mt-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/20 dark:bg-zinc-950/20 flex flex-col items-center justify-center py-4 px-6 text-center transition-all">
-          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500 mb-1">
-            Espaço para Anúncios (Leaderboard Inferior - 728x90)
+        {/* Espaço de Anúncio Inferior */}
+        <div className="mt-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex flex-col items-center justify-center py-6 px-6 text-center transition-all min-h-[90px]">
+          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+            Anúncio
           </span>
-          <p className="text-[10px] text-zinc-400 dark:text-zinc-650 max-w-sm">
-            Posicionamento ideal para monetização por visualizações ou cliques.
-          </p>
         </div>
 
         {/* Action Bottom Operations Board */}
