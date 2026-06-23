@@ -701,13 +701,6 @@ export default function App() {
       {/* Main content body */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6" id="app-main-layout">
         
-        {/* Espaço de Anúncio Superior */}
-        <div className="mb-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex flex-col items-center justify-center py-6 px-6 text-center transition-all min-h-[90px]">
-          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
-            Anúncio
-          </span>
-        </div>
-
         {/* Mock testing fallback banner on mobile */}
         <div className="md:hidden mb-6 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 flex items-center justify-between">
           <span className="text-xs text-indigo-700 dark:text-indigo-300">Quer testar com dados simulados agora?</span>
@@ -723,14 +716,23 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
 
           {/* Column 1: Files List and DND Dropzone (Left Box) */}
-          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
             
-            {/* Header section */}
-            <div className="flex flex-col gap-3">
-              <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 font-mono">
-                  Etapa 1. Arquivos
-                </h2>
+            {/* Espaço de Anúncio Superior (Painel 1) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
+
+            <div className="flex-grow flex flex-col gap-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
+              
+              {/* Header section */}
+              <div className="flex flex-col gap-3">
+                <div>
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 font-mono">
+                    Etapa 1. Arquivos
+                  </h2>
                 <p className="text-[11px] text-zinc-500 mt-0.5">Arraste para ordenar, clique para focar</p>
               </div>
 
@@ -961,11 +963,28 @@ export default function App() {
               )}
             </div>
 
+            </div>
+
+            {/* Espaço de Anúncio Inferior (Painel 1) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
           </div>
 
           {/* Column 2: Bento Live Preview Center (Middle Box) */}
-          <div className="col-span-12 lg:col-span-4 flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
-            <div className="flex items-center justify-between mb-3.5">
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
+            
+            {/* Espaço de Anúncio Superior (Painel 2) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
+
+            <div className="flex-grow flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
+              <div className="flex items-center justify-between mb-3.5">
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 font-mono flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
@@ -1150,10 +1169,27 @@ export default function App() {
                 <p className="text-[10px] text-zinc-500 dark:text-zinc-450 mt-1 max-w-[200px] mx-auto">Adicione itens na coluna da esquerda e clique em qualquer linha para examinar a alteração imediatamente em tempo real.</p>
               </div>
             )}
+            </div>
+
+            {/* Espaço de Anúncio Inferior (Painel 2) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
           </div>
 
           {/* Column 3: Configuration & Paste Board (Right Box) */}
-          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
+          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
+            
+            {/* Espaço de Anúncio Superior (Painel 3) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
+
+            <div className="flex-grow flex flex-col gap-4 bg-white dark:bg-zinc-900 border border-zinc-200/80 dark:border-zinc-850 rounded-3xl p-5 shadow-sm transition-all">
             
             <div>
               <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 font-mono">
@@ -1311,6 +1347,14 @@ export default function App() {
               </div>
             </div>
 
+            </div>
+
+            {/* Espaço de Anúncio Inferior (Painel 3) */}
+            <div className="w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+              <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+                Anúncio
+              </span>
+            </div>
           </div>
 
         </div>
@@ -1342,7 +1386,7 @@ export default function App() {
                     ? 'bg-rose-500' 
                     : progress.status === 'completed' 
                       ? 'bg-emerald-500' 
-                      : 'bg-indigo-600'
+                       : 'bg-indigo-600'
                 }`}
                 style={{ width: `${(progress.current / progress.total) * 100}%` }}
               />
@@ -1353,13 +1397,6 @@ export default function App() {
             </p>
           </div>
         )}
-
-        {/* Espaço de Anúncio Inferior */}
-        <div className="mt-8 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex flex-col items-center justify-center py-6 px-6 text-center transition-all min-h-[90px]">
-          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
-            Anúncio
-          </span>
-        </div>
 
         {/* Action Bottom Operations Board */}
         <section className="mt-8 p-6 rounded-3xl bg-gradient-to-r from-zinc-900 via-neutral-900 to-zinc-900 text-white shadow-xl dark:border dark:border-zinc-800" id="export-dashboard">
@@ -1426,6 +1463,13 @@ export default function App() {
         <section className="mt-6" id="activity-logger-area">
           <RenameLogger logs={logs} onClearLogs={() => setLogs([])} />
         </section>
+
+        {/* Espaço de Anúncio Abaixo do Log de Atividades */}
+        <div className="mt-6 w-full rounded-2xl border border-dashed border-zinc-200 dark:border-zinc-800 bg-zinc-100/25 dark:bg-zinc-950/25 flex items-center justify-center py-4 px-4 text-center transition-all min-h-[60px]">
+          <span className="text-[9px] uppercase tracking-widest font-mono font-bold text-zinc-400 dark:text-zinc-500">
+            Anúncio
+          </span>
+        </div>
 
       </main>
 
@@ -1830,7 +1874,7 @@ export default function App() {
             </button>
           </div>
         </div>
-        <p className="text-xs text-zinc-450 dark:text-zinc-550 font-mono">2026 Batch File Renamer Utility</p>
+        <p className="text-xs text-zinc-450 dark:text-white font-mono">Utilitário de Renomeação de Arquivos em Lote 2026</p>
       </footer>
 
     </div>
